@@ -61,7 +61,7 @@
   <link rel="stylesheet" type="text/css" href="librerias/alertifyjs/css/themes/default.css">
 
 	<script src="librerias/jquery-3.2.1.min.js"></script>
-  <script src="js/funciones_refaccion.js"></script>
+  <script src="js/funciones_salida.js"></script>
   <script src="librerias/bootstrap/js/bootstrap.js"></script>
   <script src="librerias/alertifyjs/alertify.js"></script>
 </head>
@@ -94,7 +94,7 @@
     background-color: #1a5ffd;
     color: white;
   }
-  
+
   ul, ol {
         list-style:none;
       }
@@ -132,6 +132,7 @@
         right:-140px;
         top:0px;
       }
+  
 </style>
   <div class="container">
     <div id="tabla"></div>
@@ -144,39 +145,39 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Agregar Refaccion</h4>
+        <h4 class="modal-title" id="myModalLabel">Agregar Salida de refaccion</h4>
       </div>
       <div class="modal-body">
-        <label>Nombre_refaccion</label>
-        <input type="text" name="" id="nombre" class="form-control input-sm">
-        <label>existencia</label>
-        <input type="text" name="" id="existencia" class="form-control input-sm">
-        <label>Nombre_Catalogo</label>
-        <select name="nombre_catalogo" id="catalogo" class="form-control input-sm">
+        <label>folio_salida</label>
+        <input type="text" name="" id="id" class="form-control input-sm">
+        <label>Refaccion</label>
+        <select name="nombre_proveedor" id="refaccion" class="form-control input-sm">
           <?php
             include("php/conexion_bd.php");
-            $query="select Catalogos.id_catalogo, subCategorias.nombre_subcategoria from Catalogos inner join subCategorias on Catalogos.id_subcategoria = subCategorias.id_subcategoria";
+            $query="select * from Refacciones";
             $resultado = sqlsrv_query($con,$query);
             if ($resultado){
               while($renglon = sqlsrv_fetch_array($resultado))
               {
-                $valor=$renglon['nombre_subcategoria'];
-                echo "<option value='".$renglon['id_catalogo']."'>".$valor."</option>\n";
+                $valor=$renglon['descripcion_refaccion'];
+                echo "<option value='".$renglon['folio_refaccion']."'>".$valor."</option>\n";
               }
               }
           ?>
         </select>
-        <label>Nombre_Proveedores</label>
-        <select name="nombre_proveedor" id="proveedor" class="form-control input-sm">
+        <label>Cantidad</label>
+        <input type="text" name="" id="cantidad" class="form-control input-sm">
+        <label>Nombre_almacen</label>
+        <select name="nombre_proveedor" id="almacen" class="form-control input-sm">
           <?php
             include("php/conexion_bd.php");
-            $query="select * from proveedores";
+            $query="select * from almacenes";
             $resultado = sqlsrv_query($con,$query);
             if ($resultado){
               while($renglon = sqlsrv_fetch_array($resultado))
               {
-                $valor2=$renglon['nombre_prov'];
-                echo "<option value='".$renglon['id_prov']."'>".$valor2."</option>\n";
+                $valor=$renglon['nombre_alm'];
+                echo "<option value='".$renglon['id_alm']."'>".$valor."</option>\n";
               }
               }
           ?>
@@ -200,38 +201,36 @@
         <h4 class="modal-title" id="myModalLabel">Modificar</h4>
       </div>
       <div class="modal-body">
-        <label>Id_refaccion</label>
-        <input type="text" name="" id="idu" class="form-control input-sm" readonly="readonly">
-        <label>Nombre_refaccion</label>
-        <input type="text" name="" id="nombreu" class="form-control input-sm">
-        <label>existencia</label>
-        <input type="text" name="" id="existenciau" class="form-control input-sm">
-        <label>Nombre_Catalogo</label>
-        <select name="nombre_catalogo" id="catalogou" class="form-control input-sm">
+        <label>folio_salida</label>
+        <input type="text" name="" id="idu" class="form-control input-sm">
+        <label>Refaccion</label>
+        <select name="nombre_proveedor" id="refaccionu" class="form-control input-sm">
           <?php
             include("php/conexion_bd.php");
-            $query="select Catalogos.id_catalogo, subCategorias.nombre_subcategoria from Catalogos inner join subCategorias on Catalogos.id_subcategoria = subCategorias.id_subcategoria";
+            $query="select * from Refacciones";
             $resultado = sqlsrv_query($con,$query);
             if ($resultado){
               while($renglon = sqlsrv_fetch_array($resultado))
               {
-                $valor=$renglon['nombre_subcategoria'];
-                echo "<option value='".$renglon['id_catalogo']."'>".$valor."</option>\n";
+                $valor=$renglon['descripcion_refaccion'];
+                echo "<option value='".$renglon['folio_refaccion']."'>".$valor."</option>\n";
               }
               }
           ?>
         </select>
-        <label>Nombre_Proveedores</label>
-        <select name="nombre_proveedor" id="proveedoru" class="form-control input-sm">
+        <label>Cantidad</label>
+        <input type="text" name="" id="cantidadu" class="form-control input-sm">
+        <label>Nombre_almacen</label>
+        <select name="nombre_proveedor" id="almacenu" class="form-control input-sm">
           <?php
             include("php/conexion_bd.php");
-            $query="select * from proveedores";
+            $query="select * from almacenes";
             $resultado = sqlsrv_query($con,$query);
             if ($resultado){
               while($renglon = sqlsrv_fetch_array($resultado))
               {
-                $valor2=$renglon['nombre_prov'];
-                echo "<option value='".$renglon['id_prov']."'>".$valor2."</option>\n";
+                $valor=$renglon['nombre_alm'];
+                echo "<option value='".$renglon['id_alm']."'>".$valor."</option>\n";
               }
               }
           ?>
@@ -249,20 +248,18 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#tabla').load('componentes/consulta_refaccion.php');
+		$('#tabla').load('componentes/consulta_salidas.php');
 	});
 </script>
 
 <script type="text/javascript">
   $(document).ready(function(){
     $('#guardarnuevo').click(function(){
-      nombre=$('#nombre').val();
-      existencia=$('#existencia').val();
-      nombre=$('#nombre').val();
-      existencia=$('#existencia').val();
-      catalogo=$('#catalogo').val();
-      proveedor=$('#proveedor').val();
-      agregardatos(nombre,existencia,catalogo,proveedor);
+      id=$('#id').val();
+      refaccion=$('#refaccion').val();
+      cantidad=$('#cantidad').val();
+      almacen=$('#almacen').val();
+      agregardatos(id,refaccion,cantidad,almacen);
     });
 
     $('#actualizadatos').click(function(){

@@ -61,13 +61,13 @@
   <link rel="stylesheet" type="text/css" href="librerias/alertifyjs/css/themes/default.css">
 
 	<script src="librerias/jquery-3.2.1.min.js"></script>
-  <script src="js/funciones_refaccion.js"></script>
+  <script src="js/funciones_categoria.js"></script>
   <script src="librerias/bootstrap/js/bootstrap.js"></script>
   <script src="librerias/alertifyjs/alertify.js"></script>
 </head>
 <style type="text/css">
   head{
-    color: white;
+    color: black;
   }
   body{
     background-image: white;
@@ -75,7 +75,7 @@
     background-size: 1366px 768px;
   }
   table{
-    background-color: #d5d8dc;
+    background-color:#d5d8dc;
     text-align: center;
     width: 100%;
   }
@@ -90,11 +90,14 @@
     color: white;
   }
 
+  tbody{
+    overflow-y: scroll;
+  }
+
   tr:hover td{
     background-color: #1a5ffd;
     color: white;
   }
-  
   ul, ol {
         list-style:none;
       }
@@ -133,6 +136,74 @@
         top:0px;
       }
 </style>
+<body class="fondo-blur">
+  <div class="container">
+    <header>
+      
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Proyecto</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">Acerca de nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#services">Servicios</a>
+         <ul>
+            <li><a href="http://localhost:90/proyecto/consulta_usuarios.php">Registrar Usuario</a></li>
+            <li><a href="http://localhost:90/proyecto/refaccion.php">Registrar Refaccion</a></li>
+            <li><a href="http://localhost:90/proyecto/cosulta_categoria.php">Actualizar Control Calidad</a></li>  
+            
+        </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#portfolio">Autopartes</a>
+        <ul>
+            <li><a href="http://localhost:90/proyecto/universidad.php">Catalogos</a></li>
+            <li><a href="http://localhost:90/proyecto/universidad.php">Categorias</a></li>
+            <li><a href="http://localhost:90/proyecto/universidad.php">SubCategorias</a></li>
+            <li><a href="http://localhost:90/proyecto/universidad.php">Refacciones</a></li>
+            <li><a href="http://localhost:90/proyecto/universidad.php">Tipo de Motores</a></li>
+            <li><a href="http://localhost:90/proyecto/universidad.php">Marcas</a></li>
+            <li><a href="http://localhost:90/proyecto/universidad.php">Años</a></li>
+            </li>
+        </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">Ventas</a>
+            <ul>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Modulos%20Insertar/tipo.php">Entradas</a></li>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Tabla%20tipo/tipo.php">Salidas</a></li>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Modulos%20Insertar/programa.php">Devoluciones</a></li>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Tabla%20programa/programa.php">Programas Registrados</a></li>
+            
+      </ul>
+      </li>
+      <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">Contactos</a>
+            <ul>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Modulos%20Insertar/beca.php">Proveedores</a></li>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Tabla%20beca/beca.php">Ciudades</a></li>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Modulos%20Insertar/pais.php">Estados</a></li>
+            <li><a href="http://localhost/s131/ProyectoFinal%20Software/Tabla%20pais/pais.php">Almacenes</a></li>
+          </ul>
+      </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="ftp://10.16.36.73">FTP</a>
+            </li>
+          </ul>
+      
+        </div>
+      </div>
+    </nav>
+      
+    </header>
+  </div>
   <div class="container">
     <div id="tabla"></div>
   </div>
@@ -144,43 +215,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Agregar Refaccion</h4>
+        <h4 class="modal-title" id="myModalLabel">Agregar Categoria</h4>
       </div>
       <div class="modal-body">
-        <label>Nombre_refaccion</label>
-        <input type="text" name="" id="nombre" class="form-control input-sm">
-        <label>existencia</label>
-        <input type="text" name="" id="existencia" class="form-control input-sm">
-        <label>Nombre_Catalogo</label>
-        <select name="nombre_catalogo" id="catalogo" class="form-control input-sm">
-          <?php
-            include("php/conexion_bd.php");
-            $query="select Catalogos.id_catalogo, subCategorias.nombre_subcategoria from Catalogos inner join subCategorias on Catalogos.id_subcategoria = subCategorias.id_subcategoria";
-            $resultado = sqlsrv_query($con,$query);
-            if ($resultado){
-              while($renglon = sqlsrv_fetch_array($resultado))
-              {
-                $valor=$renglon['nombre_subcategoria'];
-                echo "<option value='".$renglon['id_catalogo']."'>".$valor."</option>\n";
-              }
-              }
-          ?>
-        </select>
-        <label>Nombre_Proveedores</label>
-        <select name="nombre_proveedor" id="proveedor" class="form-control input-sm">
-          <?php
-            include("php/conexion_bd.php");
-            $query="select * from proveedores";
-            $resultado = sqlsrv_query($con,$query);
-            if ($resultado){
-              while($renglon = sqlsrv_fetch_array($resultado))
-              {
-                $valor2=$renglon['nombre_prov'];
-                echo "<option value='".$renglon['id_prov']."'>".$valor2."</option>\n";
-              }
-              }
-          ?>
-        </select>
+        <label>Nombre_categoria</label>
+        <input type="text" name="" id="nombre_categoria" class="form-control input-sm">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" id="guardarnuevo">
@@ -200,42 +239,10 @@
         <h4 class="modal-title" id="myModalLabel">Modificar</h4>
       </div>
       <div class="modal-body">
-        <label>Id_refaccion</label>
-        <input type="text" name="" id="idu" class="form-control input-sm" readonly="readonly">
-        <label>Nombre_refaccion</label>
-        <input type="text" name="" id="nombreu" class="form-control input-sm">
-        <label>existencia</label>
-        <input type="text" name="" id="existenciau" class="form-control input-sm">
-        <label>Nombre_Catalogo</label>
-        <select name="nombre_catalogo" id="catalogou" class="form-control input-sm">
-          <?php
-            include("php/conexion_bd.php");
-            $query="select Catalogos.id_catalogo, subCategorias.nombre_subcategoria from Catalogos inner join subCategorias on Catalogos.id_subcategoria = subCategorias.id_subcategoria";
-            $resultado = sqlsrv_query($con,$query);
-            if ($resultado){
-              while($renglon = sqlsrv_fetch_array($resultado))
-              {
-                $valor=$renglon['nombre_subcategoria'];
-                echo "<option value='".$renglon['id_catalogo']."'>".$valor."</option>\n";
-              }
-              }
-          ?>
-        </select>
-        <label>Nombre_Proveedores</label>
-        <select name="nombre_proveedor" id="proveedoru" class="form-control input-sm">
-          <?php
-            include("php/conexion_bd.php");
-            $query="select * from proveedores";
-            $resultado = sqlsrv_query($con,$query);
-            if ($resultado){
-              while($renglon = sqlsrv_fetch_array($resultado))
-              {
-                $valor2=$renglon['nombre_prov'];
-                echo "<option value='".$renglon['id_prov']."'>".$valor2."</option>\n";
-              }
-              }
-          ?>
-        </select>
+        <label>Id_categoria</label>
+        <input type="text" hidden="" id="id_categoriau" class="form-control input-sm" readonly="readonly">
+        <label>Nombre_categoria</label>
+        <input type="text" name="" id="nombre_categoriau" class="form-control input-sm">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" id="actualizadatos" data-dismiss="modal">Actualizar</button>
@@ -249,20 +256,15 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#tabla').load('componentes/consulta_refaccion.php');
+		$('#tabla').load('componentes/consulta_categoria.php');
 	});
 </script>
 
 <script type="text/javascript">
   $(document).ready(function(){
     $('#guardarnuevo').click(function(){
-      nombre=$('#nombre').val();
-      existencia=$('#existencia').val();
-      nombre=$('#nombre').val();
-      existencia=$('#existencia').val();
-      catalogo=$('#catalogo').val();
-      proveedor=$('#proveedor').val();
-      agregardatos(nombre,existencia,catalogo,proveedor);
+      nombre=$('#nombre_categoria').val();
+      agregardatos(nombre);
     });
 
     $('#actualizadatos').click(function(){
